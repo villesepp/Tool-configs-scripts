@@ -1,2 +1,2 @@
 # Tool-configs
-Tool configurations for tools I use
+Configurations for tools I use
