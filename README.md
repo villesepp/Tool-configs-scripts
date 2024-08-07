@@ -21,6 +21,6 @@ Inside the script there things that should be edited for your needs:
 
 ## vim
 
-[TODO add screenshot]
+![image](https://github.com/user-attachments/assets/74b38fea-b98f-4a22-be04-da31b8702291)
 
-Make vim more enjoyable to use (for me).
+Make vim more enjoyable to use (for me) by donfiguring various settings.
