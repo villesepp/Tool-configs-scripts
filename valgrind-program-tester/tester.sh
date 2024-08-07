@@ -8,8 +8,8 @@ ARGUMENTS=(
 	#"1 a"				# non-number
 	#"1 2 1"				# duplicate
 	#"1 2 1 1 2"			# duplicate
-	"2147483648"			# over maxint
-	"-2147483649"			# under minint
+	#"2147483648"			# over maxint
+	#"-2147483649"			# under minint
 
 	# no argument special case, should print nothing
 	#""
@@ -17,18 +17,32 @@ ARGUMENTS=(
 
 	# proper arguments
 	#"0"
-	"2147483647"			#maxint
-	"-2147483648"			#minint
+	#"2147483647"			#maxint
+	#"-2147483648"			#minint
 	#"576"
 	#"-1 1"
 	#"1 2 3"
-	#"1 2 3 4"
+	"10 1 -2 11"
 )
 
 # colors
 GRN="\033[1;32m"
 RED="\033[1;31m"
 RST="\033[0m"
+
+# Common error messages to check for
+ERROR_MESSAGES=(
+    "Segmentation fault"
+    "Bus error"
+    "Illegal instruction"
+    "Floating point exception"
+    "No such file or directory"
+    "Permission denied"
+    "command not found"
+	"Invalid read"
+	"Process terminating"
+	"SIGSEGV"
+)
 
 # check for executable
 if [ ! -f $EXECUTABLE ]; then
@@ -45,12 +59,15 @@ fi
 echo "⚡ ${GRN}Testing begins!${RST}"
 echo ""
 
+
 # run tests
 for ARG in "${ARGUMENTS[@]}"
 do
 	TESTCOUNTER=$((TESTCOUNTER + 1))
 	# echo "⚡ logfile: ${LOGFILE}${TESTCOUNTER}"
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=${LOGFILE}${TESTCOUNTER} $EXECUTABLE $ARG
+	
+	
 	if grep -q "All heap blocks were freed -- no leaks are possible" "${LOGFILE}${TESTCOUNTER}"; then
     	echo "⚡ ${GRN}Test $TESTCOUNTER: No memory leaks detected."${RST}
 	else
@@ -59,6 +76,14 @@ do
 	fi
 	echo "⚡ Args: $ARG"
 	echo ""
+
+	# Check for common error messages in the log file
+	for ERROR in "${ERROR_MESSAGES[@]}"; do
+		if grep -q "$ERROR" ${LOGFILE}${TESTCOUNTER}; then
+			echo "✋${RED}Error detected: $ERROR check the log file ${RST}✋"
+		fi
+	done
+
 done
 
 # report 
