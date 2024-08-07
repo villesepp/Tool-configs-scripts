@@ -6,7 +6,7 @@ Scripts and Configurations for tools I use.
 
 [TODO add screenshots]
 
-This is for zsh (shell).
+For zsh (shell).
 
 Is meant to make testing for memory leaks with Valgrind easier by:
 - running a program as many times as there are argument sets
@@ -24,3 +24,11 @@ Inside the script there things that should be edited for your needs:
 ![image](https://github.com/user-attachments/assets/74b38fea-b98f-4a22-be04-da31b8702291)
 
 Make vim more enjoyable to use (for me) by donfiguring various settings.
+
+## extranorm (work in progress)
+
+![image](https://github.com/user-attachments/assets/6da761f1-cffb-40a0-9785-fdee6f49dfeb)
+
+For zsh (shell).
+
+A simple script that greps for various strings that often are left in files, but should probably/often also be deleted before code evaluation.
