@@ -1,7 +1,7 @@
 # Tool-configs-scripts
 Scripts and Configurations fortools I use
 
-## Valgrind
+## valgrind-program-tester
 
 Is meant to make testing for memory leaks with Valgrind easier by:
 - running a program as many times as there are argument sets
@@ -13,6 +13,6 @@ Inside the script there is :
 - an executable variable name to set as the program name to test with
 - arguments to set that the script should run the program with
 
-## Vim
+## vim
 
 Make vim more enjoyable to use (for me).
