@@ -10,6 +10,7 @@ ARGUMENTS=(
 	"marvin"
 	"//"
 	"(void) "
+	"deb"
 )
 
 # colors
@@ -17,8 +18,13 @@ GRN="\033[1;32m"
 RED="\033[1;31m"
 RST="\033[0m"
 
-echo "⚡ Extra norm check starting"
-echo ""
+echo "⚡ Looking for the following:"
+# display arguments
+for ARG in "${ARGUMENTS[@]}"
+do
+	echo -n "$ARG "
+done
+echo
 
 # run grep
 for ARG in "${ARGUMENTS[@]}"
@@ -30,7 +36,6 @@ do
 	fi
 done
 
-echo ""
 
 # report 
 if [ $((FINDS)) -gt 0 ]; then
