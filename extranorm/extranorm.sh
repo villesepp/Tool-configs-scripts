@@ -11,6 +11,7 @@ ARGUMENTS=(
 	"//"
 	"(void) "
 	"deb"
+ 	"stdio"
 )
 
 # colors
