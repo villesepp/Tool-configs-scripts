@@ -1,0 +1,96 @@
+1. Basic Command Pipeline Test
+This checks if the project correctly handles a simple pipeline of two commands.
+
+bash
+Copy code
+./pipex input_file "cat" "wc -l" output_file
+Expected Result: output_file should contain the line count of input_file, as cat reads the contents, and wc -l counts the lines.
+2. Non-Existing Command Test
+Verifies error handling when a command doesn’t exist.
+
+bash
+Copy code
+./pipex input_file "non_existing_command" "wc -l" output_file
+Expected Result: An error message should indicate that non_existing_command was not found, and output_file should not be created or should be empty.
+3. Permission Denied on Input File
+Tests behavior when the input file lacks read permissions.
+
+bash
+Copy code
+chmod 000 input_file
+./pipex input_file "cat" "wc -l" output_file
+chmod 644 input_file # Reset permissions afterward
+Expected Result: An error message indicating "Permission denied" for input_file. output_file should be empty or non-existent.
+4. Permission Denied on Output File
+Tests the case where the output file lacks write permissions.
+
+bash
+Copy code
+touch output_file
+chmod 000 output_file
+./pipex input_file "cat" "wc -l" output_file
+chmod 644 output_file # Reset permissions afterward
+Expected Result: An error message indicating "Permission denied" for output_file.
+5. Empty Input File Test
+Verifies that an empty input file results in an empty output.
+
+bash
+Copy code
+> empty_input_file
+./pipex empty_input_file "cat" "wc -l" output_file
+Expected Result: output_file should contain "0", as wc -l should return zero for an empty file.
+6. Chaining Commands Test
+Tests multiple commands in a chain.
+
+bash
+Copy code
+./pipex input_file "cat" "grep some_text" "wc -l" output_file
+Expected Result: output_file should contain the number of lines in input_file that contain some_text.
+7. Special Characters in Commands
+Verifies that commands with special characters or redirection symbols are handled correctly.
+
+bash
+Copy code
+./pipex input_file "echo 'Hello | grep Hello'" "wc -l" output_file
+Expected Result: output_file should contain "1", as the pipe symbol | in the echo command should be treated as a string rather than a pipeline.
+8. Non-Existent Input File
+Tests handling of a missing input file.
+
+bash
+Copy code
+./pipex nonexistent_input "cat" "wc -l" output_file
+Expected Result: An error message indicating "No such file or directory" for nonexistent_input.
+9. Long Input File Test
+Evaluates performance with large input data.
+
+bash
+Copy code
+yes "sample text" | head -n 10000 > large_input_file
+./pipex large_input_file "cat" "wc -l" output_file
+Expected Result: output_file should contain "10000" to confirm the project handles long inputs efficiently.
+10. Command with Options Test
+Checks if commands with additional options are handled correctly.
+
+bash
+Copy code
+./pipex input_file "grep -i 'sample_text'" "wc -l" output_file
+Expected Result: output_file should contain the number of lines containing sample_text, case-insensitively.
+11. Output to /dev/null
+Tests if output redirection to /dev/null works without errors.
+
+bash
+Copy code
+./pipex input_file "cat" "wc -l" /dev/null
+Expected Result: No errors should occur, and output should be discarded.
+12. Multiple Pipes (If Supported)
+If Pipex has an extension to handle multiple pipes, test it with more complex commands.
+
+bash
+Copy code
+./pipex input_file "grep 'pattern'" "sort" "uniq" output_file
+Expected Result: output_file should contain unique sorted lines matching "pattern" from input_file.
+Tips for Evaluation
+Consistency: Re-run tests to ensure consistent behavior, especially around file permissions and large input files.
+Error Messages: Confirm that error messages are informative and relevant.
+Edge Cases: Always consider edge cases such as empty inputs, invalid commands, and file access restrictions.
+Code Quality: If possible, examine the handling of system calls and error checking within the code.
